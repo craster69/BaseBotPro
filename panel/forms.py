@@ -6,7 +6,7 @@ class BroadcastForm(forms.Form):
         widget=forms.Textarea(attrs={
             'rows': 5,
             'placeholder': 'Введите текст рассылки...',
-            'class': 'vLargeTextField'
+            'class': 'form-control'
         }),
         required=True
     )

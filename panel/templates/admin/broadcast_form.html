@@ -1,8 +1,84 @@
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% for uid in user_ids %}
-    <input type="hidden" name="user_id" value="{{ uid }}">
-  {% endfor %}
-  <input type="submit" value="Отправить рассылку">
-</form>
+{% extends "admin/base_site.html" %}
+{% block title %}Рассылка сообщений{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="max-width: 700px; margin-top: 20px;">
+  <div class="card shadow-sm border-0" style="background-color: #1e1e2e; color: #e6e6e6; border-radius: 0.5rem;">
+    <div class="card-header bg-gradient-to-r from-blue-600 to-indigo-600 text-white" style="background: linear-gradient(90deg, #2563eb, #4f46e5); border-radius: 0.5rem 0.5rem 0 0;">
+      <h2 class="h5 mb-0 d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+          <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zm-2 14l-3-3h6l-3 3z"/>
+        </svg>
+        Отправить рассылку {{ user_ids|length }} пользователям
+      </h2>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+
+        <!-- Поле сообщения -->
+        <div class="mb-3">
+          <label for="{{ form.message.id_for_label }}" class="form-label fw-bold">Текст сообщения</label>
+          <textarea 
+            id="{{ form.message.id_for_label }}"
+            name="message"
+            class="form-control"
+            rows="6"
+            placeholder="Введите текст рассылки..."
+            style="background-color: #2a2a3a; color: #e6e6e6; border: 1px solid #4a4a5a; resize: vertical;"
+          >{{ form.message.value }}</textarea>
+          {% if form.message.errors %}
+            <div class="text-danger mt-1">{{ form.message.errors }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Скрытые user_id -->
+        {% for uid in user_ids %}
+          <input type="hidden" name="user_id" value="{{ uid }}">
+        {% endfor %}
+
+        <!-- Кнопки -->
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-success px-4" style="background-color: #16a34a; border-color: #16a34a; color: white;">
+            ✉️ Отправить рассылку
+          </button>
+          <a href="{% url 'admin:panel_users_changelist' %}" class="btn btn-outline-light px-4">
+            ← Назад
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Подключаем Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Стили для тёмного режима -->
+<style>
+  body {
+    background-color: #121212 !important;
+    color: #e6e6e6;
+  }
+  .form-control {
+    background-color: #2a2a3a !important;
+    color: #e6e6e6 !important;
+    border: 1px solid #4a4a5a !important;
+  }
+  .form-control:focus {
+    border-color: #60a5fa !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+  }
+  .card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+  .btn-outline-light {
+    color: #e6e6e6 !important;
+    border-color: #e6e6e6 !important;
+  }
+  .btn-outline-light:hover {
+    background-color: #333 !important;
+    color: white !important;
+  }
+</style>
+{% endblock %}

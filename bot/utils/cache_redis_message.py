@@ -11,10 +11,6 @@ from aiogram.types import InlineKeyboardButton as IB
 
 
 class CacheRedisMessage:
-    """
-    упаковка/распаковка сообщения для Redis
-    """
-
     @classmethod
     def pack(cls, msg_data: MessageDataType) -> dict:
         if msg_data.keyboard and msg_data.keyboard.buttons:

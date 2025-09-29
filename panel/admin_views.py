@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import BroadcastForm
 from .tasks import broadcast_message
-from .models import Users
 
 @staff_member_required
 def broadcast_view(request):

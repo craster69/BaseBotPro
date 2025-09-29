@@ -5,7 +5,7 @@ from typing import Callable, Dict, Any, Awaitable
 
 from panel.models import Users
 
-from bot.base_enums import OtherCallbackEnum, LanguageEnum
+from bot.base_enums import LanguageEnum
 from bot.utils.message_manager import MessageManager
 from bot.utils.base_utils import get_enums, logger
 
@@ -29,7 +29,6 @@ class LoggerMiddleware(BaseMiddleware):
 
 
     async def _event_type(self, event: Message | CallbackQuery) -> str:
-        """вернет тип приходящего события для логов"""
         return {Message: 'MESSAGE', CallbackQuery: 'CALLBACK'}[type(event)]
 
 
