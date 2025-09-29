@@ -1,0 +1,9 @@
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="confirm" value="1">
+  {% for id in selected_ids %}
+    <input type="hidden" name="action_checkbox" value="{{ id }}">
+  {% endfor %}
+  <p>Отправить рассылку {{ selected_ids|length }} пользователям?</p>
+  <input type="submit" value="Да, отправить">
+</form>

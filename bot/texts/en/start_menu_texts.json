@@ -1,0 +1,17 @@
+{
+    "message" : {
+        "start_menu" : "start menu",
+        "choose_language" : "choose language"
+    },
+
+    "kb" : {
+        "portfolio" : "💼 My portfolio",
+        "adding_accounts" : "➕ Add accounts",
+        "accounts_management" : "⚙️ Account Management",
+        "about_us" : "ℹ️ About us",
+        "help" : "❤️‍🩹 Help",
+        "choose_language" : "🔄 Choose language", 
+        "ru" : "Русский",
+        "en" : "English"
+    }
+}

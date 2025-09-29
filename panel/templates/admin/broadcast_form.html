@@ -1,0 +1,8 @@
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% for uid in user_ids %}
+    <input type="hidden" name="user_id" value="{{ uid }}">
+  {% endfor %}
+  <input type="submit" value="Отправить рассылку">
+</form>
