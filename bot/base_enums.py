@@ -25,8 +25,6 @@ class EnvEnum(str, Enum):
     REDIS_PORT = 'REDIS_PORT'
     WEBHOOK_URL = 'WEBHOOK_URL'
     MODERATOR_CHAT_ID = 'MODERATOR_CHAT_ID'
-    API_KEY_BINANCE = 'API_KEY_BINANCE'
-    API_KEY_BYBIT = 'API_KEY_BYBIT'
 
 
 class LanguageEnum(str, Enum):
@@ -45,12 +43,11 @@ class MainCallbackEnum(str, Enum):
     HELP = 'help'
     ACCOUNTS_MANAGEMENT = 'accounts_management'
     CHOOSE_LANGUAGE = 'choose_language'
-    
-    
+
+
 class OtherCallbackEnum(str, Enum):
     """список оставшихся callback`ов"""
     CHOOSE_LANGUAGE_ = 'choose_language_'
-    CATALOG_ = 'catalog_'
 
 
 class UserRoleEnum(str, Enum):
@@ -58,15 +55,3 @@ class UserRoleEnum(str, Enum):
     OWNER = 'owner'
     ADMIN = 'admin'
     USER = 'user'
-
-
-class TextsEnum(str, Enum):
-    UTILS_TEXTS = 'utils'
-    START_MENU_TEXTS = 'start_menu'
-    ACCOUNT_MANAGEMENT = 'accounts_management'
-    
-
-
-class TypeTextEnum(str, Enum):
-    MESSAGE = 'message'
-    KB = 'kb'

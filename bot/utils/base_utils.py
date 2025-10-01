@@ -1,12 +1,9 @@
-from typing import Type, List, Dict, NamedTuple
+from typing import Type, List
 
 from enum import Enum
 
 import json
 
-from bot.base_enums import (
-    TypeTextEnum,
-)
 from bot.type_defs.base_types import (
     KbDataType, 
     MessageDataType,

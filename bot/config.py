@@ -21,7 +21,7 @@ from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
 
 
-load_dotenv() # подключаем .env файл
+load_dotenv()
 
 
 def get_env(env_str: EnvEnum, return_type: Type[int] | Type[str] = str) -> int | str:
@@ -29,7 +29,6 @@ def get_env(env_str: EnvEnum, return_type: Type[int] | Type[str] = str) -> int |
     return return_type(os.getenv(env_str.value))
 
 
-# формируем config для всего проекта
 Config: ConfigType = ConfigType(
     tg_bot=TgBotType(
         TOKEN=get_env(EnvEnum.TOKEN_TG_BOT),
@@ -54,7 +53,6 @@ Config: ConfigType = ConfigType(
     ),
 )
 
-# создаем и настраиваем объект бота
 bot: Bot = Bot(
     token=Config.tg_bot.TOKEN,
     default=DefaultBotProperties(
