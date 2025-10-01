@@ -1,0 +1,10 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+  {{ block.super }}
+  <li>
+    <a href="{% url 'panel:edit_texts' %}" class="addlink">
+      🌐 Редактировать тексты
+    </a>
+  </li>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "admin/base_site.html" %}
+{% block title %}Редактировать тексты локализации{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="max-width: 900px; margin-top: 20px;">
+
+  <!-- Фильтр по языкам -->
+  <div class="mb-4">
+    <form method="get" class="d-flex align-items-center gap-2">
+      <label for="lang-filter" class="form-label mb-0 fw-bold">Фильтр по языку:</label>
+      <select id="lang-filter" name="lang" class="form-select" style="width: auto; background-color: #2a2a3a; color: #e6e6e6; border: 1px solid #4a4a5a; max-width: 150px;">
+        <option value="">Все</option>
+        {% for lang in existing_langs %}
+          <option value="{{ lang }}" {% if selected_lang == lang %}selected{% endif %}>
+            {{ lang }}
+          </option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn btn-sm btn-outline-primary">Применить</button>
+    </form>
+  </div>
+
+  <!-- Создание нового языка -->
+  <div class="card mb-4 shadow-sm border-0" style="background-color: #1e1e2e; color: #e6e6e6; border-radius: 0.5rem;">
+    <div class="card-header bg-gradient-to-r from-green-600 to-emerald-600 text-white" style="border-radius: 0.5rem 0.5rem 0 0;">
+      <h3 class="h6 mb-0">➕ Создать новый язык</h3>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="create_lang">
+        <div class="input-group">
+          <input type="text" name="lang_code" class="form-control" placeholder="Код языка (например: es, fr, de)" style="background-color: #2a2a3a; color: #e6e6e6; border: 1px solid #4a4a5a;">
+          <button type="submit" class="btn btn-success">Создать язык</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Создание нового файла -->
+  <div class="card mb-4 shadow-sm border-0" style="background-color: #1e1e2e; color: #e6e6e6; border-radius: 0.5rem;">
+    <div class="card-header bg-gradient-to-r from-amber-600 to-orange-600 text-white" style="border-radius: 0.5rem 0.5rem 0 0;">
+      <h3 class="h6 mb-0">📄 Создать новый файл</h3>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="create_file">
+        <div class="row g-2">
+          <div class="col-md-5">
+            <select name="new_file_lang" class="form-select" style="background-color: #2a2a3a; color: #e6e6e6; border: 1px solid #4a4a5a;">
+              <option value="">— Выберите язык —</option>
+              {% for lang in existing_langs %}
+                <option value="{{ lang }}">{{ lang }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-5">
+            <input type="text" name="new_filename" class="form-control" placeholder="Имя файла (без .json)" style="background-color: #2a2a3a; color: #e6e6e6; border: 1px solid #4a4a5a;">
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-warning w-100">Создать</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Существующие файлы (сгруппированные по языкам) -->
+  <div class="card shadow-sm border-0" style="background-color: #1e1e2e; color: #e6e6e6; border-radius: 0.5rem;">
+    <div class="card-header bg-gradient-to-r from-blue-600 to-indigo-600 text-white" style="background: linear-gradient(90deg, #2563eb, #4f46e5); border-radius: 0.5rem 0.5rem 0 0;">
+      <h2 class="h5 mb-0 d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+          <path d="M15.502 1.94a.5.5 0 010 .707l-1.414 1.414a.5.5 0 01-.707 0l-1.414-1.414a.5.5 0 01.707-.707l1.414 1.414a.5.5 0 01.707 0l1.414-1.414a.5.5 0 01.707.707zm-1.414 8.736L15.502 12.09a.5.5 0 01-.707.707l-1.414-1.414a.5.5 0 01.707-.707l1.414 1.414a.5.5 0 01.707.707zm-1.414-8.736L14.088 12.09a.5.5 0 01-.707.707l-1.414-1.414a.5.5 0 01.707-.707l1.414 1.414a.5.5 0 01.707.707z"/>
+        </svg>
+        Редактировать тексты локализации
+      </h2>
+    </div>
+    <div class="card-body">
+      {% if text_files %}
+        {% for lang, files in text_files.items %}
+          <h4 class="mt-4 mb-3 fw-bold border-bottom pb-2" style="color: #60a5fa;">🌐 {{ lang }}</h4>
+          {% for file in files %}
+            <div class="mb-4 p-3 border rounded" style="background-color: #2a2a3a; border-color: #4a4a5a;">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="fw-bold mb-0">{{ file.filename }}</h5>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete('{{ file.filepath|escapejs }}')">
+                  🗑️ Удалить
+                </button>
+              </div>
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="save_file">
+                <input type="hidden" name="file_path" value="{{ file.filepath }}">
+                <textarea 
+                  name="content" 
+                  class="form-control" 
+                  rows="10" 
+                  style="background-color: #2a2a3a; color: #e6e6e6; border: 1px solid #4a4a5a; font-family: monospace; resize: vertical;"
+                >{{ file.raw_content }}</textarea>
+                <div class="mt-2">
+                  <button type="submit" class="btn btn-success">💾 Сохранить</button>
+                </div>
+              </form>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      {% else %}
+        <p class="text-muted">Нет файлов локализации.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- JS для подтверждения удаления -->
+<script>
+function confirmDelete(filepath) {
+  if (confirm("Вы уверены, что хотите удалить этот файл? Это действие нельзя отменить.")) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.style.display = 'none';
+    
+    const csrf = document.createElement('input');
+    csrf.type = 'hidden';
+    csrf.name = 'csrfmiddlewaretoken';
+    csrf.value = '{{ csrf_token }}';
+    form.appendChild(csrf);
+    
+    const action = document.createElement('input');
+    action.type = 'hidden';
+    action.name = 'action';
+    action.value = 'delete_file';
+    form.appendChild(action);
+    
+    const path = document.createElement('input');
+    path.type = 'hidden';
+    path.name = 'file_path';
+    path.value = filepath;
+    form.appendChild(path);
+    
+    document.body.appendChild(form);
+    form.submit();
+  }
+}
+</script>
+
+<style>
+  body {
+    background-color: #121212 !important;
+    color: #e6e6e6 !important;
+  }
+  .card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+  .btn-outline-light {
+    color: #e6e6e6 !important;
+    border-color: #e6e6e6 !important;
+  }
+  .btn-outline-light:hover {
+    background-color: #333 !important;
+    color: white !important;
+  }
+  .text-danger {
+    color: #f87171 !important;
+  }
+</style>
+{% endblock %}

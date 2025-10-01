@@ -4,8 +4,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('/', include('panel.urls')),
     path('admin/', admin.site.urls),
+    path('/', include('panel.urls', namespace='panel')),
 ]
 
 if settings.DEBUG:

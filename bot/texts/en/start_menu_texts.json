@@ -1,12 +1,11 @@
-{
-    "message" : {
-        "start_menu" : "start menu",
-        "choose_language" : "choose language"
-    },
-
-    "kb" : {
-        "choose_language" : "🔄 Choose language", 
-        "ru" : "Русский",
-        "en" : "English"
-    }
+{
+  "message": {
+    "start_menu": "start menu",
+    "choose_language": "choose language"
+  },
+  "kb": {
+    "choose_language": "🔄 Choose language",
+    "ru": "Русский",
+    "en": "English"
+  }
 }

@@ -44,6 +44,3 @@ class UsersAdmin(admin.ModelAdmin):
         return HttpResponseRedirect(url)
 
     send_msg_users.short_description = "Запустить рассылку"
-
-
-admin.site.register(Users, UsersAdmin)
