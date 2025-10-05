@@ -1,10 +1,30 @@
 from django.contrib import admin
+from django import forms
 from django.http import HttpResponse
 
 import csv
 
 from panel.models import Users
 
+from bot.utils.base_utils import get_languages
+
+class UsersAdminForm(forms.ModelForm):
+    language_code = forms.ChoiceField(
+        choices=[],
+        required=False,
+        widget=forms.Select(attrs={'class': 'vTextField'}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        languages = get_languages()
+        self.fields['language_code'].choices = [
+            (lang, lang.upper()) for lang in languages
+        ]
+
+    class Meta:
+        model = Users
+        fields = '__all__'
 
 class UsersAdmin(admin.ModelAdmin):
     list_display = ('tg_id', 'name', 'role', 'language_code', 'date_joined')

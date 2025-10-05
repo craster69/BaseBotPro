@@ -4,10 +4,7 @@ from django.db.models import (
     DateTimeField,
     BigIntegerField
 )
-from panel.enums import (
-    UserRoleEnum,
-    LanguageEnum
-)
+from panel.enums import UserRoleEnum
 
 
 class Users(Model):
@@ -27,7 +24,6 @@ class Users(Model):
     )
     language_code = CharField(
         max_length=2,
-        choices=LanguageEnum,
         null=True,
         blank=True,
     )

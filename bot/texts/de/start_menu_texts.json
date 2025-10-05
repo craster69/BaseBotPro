@@ -1,0 +1,12 @@
+{
+  "message": {
+    "start_menu": "Hauptmenü",
+    "choose_language": "Sprache auswählen"
+  },
+  "kb": {
+    "choose_language": "🔄 Sprache ändern",
+    "ru": "Russisch",
+    "en": "Englisch",
+   "de": "Deutsch"
+  }
+}

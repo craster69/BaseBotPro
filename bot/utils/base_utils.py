@@ -20,6 +20,7 @@ import sys
 from loguru import logger
 
 from os.path import abspath, dirname, join
+import os
 
 from panel.models import Users
 
@@ -67,6 +68,28 @@ def get_text(catalog: str, key: str, language_code: str, args: dict[str, any] = 
         type_text = 'kb'
     
     return data[type_text][key].format(**args) if args else data[type_text][key]
+
+
+def get_languages() -> list[str]:
+    """
+    Возвращает список названий папок (языков), в которых есть хотя бы один .json файл.
+    Пример: ['en', 'ru']
+    """
+    texts_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'bot', 'texts')
+
+    if not os.path.exists(texts_dir):
+        return []
+
+    languages = []
+    for item in os.listdir(texts_dir):
+        item_path = os.path.join(texts_dir, item)
+        if os.path.isdir(item_path):
+            # Проверяем, есть ли хотя бы один .json файл в папке
+            has_json = any(f.endswith('.json') for f in os.listdir(item_path))
+            if has_json:
+                languages.append(item)
+
+    return sorted(languages)
 
 
 def build_keyboard(kb_data: KbDataType, language_code: str) -> IM:

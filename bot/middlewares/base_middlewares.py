@@ -5,9 +5,8 @@ from typing import Callable, Dict, Any, Awaitable
 
 from panel.models import Users
 
-from bot.base_enums import LanguageEnum
 from bot.utils.message_manager import MessageManager
-from bot.utils.base_utils import get_enums, logger
+from bot.utils.base_utils import get_enums, logger, get_languages
 
 from asgiref.sync import sync_to_async
 
@@ -61,7 +60,7 @@ class AuthMiddleware(BaseMiddleware):
         return Users.objects.create(
             tg_id=self.tg_id,
             name=self.name,
-            language_code=self.language_code if self.language_code in get_enums(LanguageEnum) else LanguageEnum.EN.value
+            language_code=self.language_code if self.language_code in get_languages() else 'en'
         )
 
 

@@ -1,6 +1,7 @@
 from aiogram.types import InlineKeyboardButton as IB, InlineKeyboardMarkup as IKM
 
 from bot.type_defs.base_types import KbDataType, BTNDataType
+from bot.utils.base_utils import get_languages
 
 
 class MainMenuKb:
@@ -24,15 +25,11 @@ class MainMenuKb:
                 [
                     BTNDataType(
                         catalog='start_menu',
-                        key='ru',
-                        callback=f'choose_language_ru'
-                    ),
-                    BTNDataType(
-                        catalog='start_menu',
-                        key='en',
-                        callback=f'choose_language_en'
+                        key=lang,
+                        callback=f'choose_language_{lang}'
                     )
-                ],
+                ]
+                for lang in get_languages()
             ],
             back_to_main_menu=True
         )

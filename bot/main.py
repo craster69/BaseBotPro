@@ -12,8 +12,8 @@ django.setup()
 from bot.routers import routers
 from bot.config import bot, Config
 from bot.middlewares.base_middlewares import middlewares
-from bot.base_enums import RunTypeEnum, LanguageEnum
-from bot.utils.base_utils import get_enums, logging_setup, logger
+from bot.base_enums import RunTypeEnum
+from bot.utils.base_utils import get_enums, logging_setup, logger, get_languages
 
 from aiogram import Dispatcher, Bot
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -114,7 +114,7 @@ async def set_commands() -> None:
         BotCommand(command=f'/help', description='Помощь'),
         BotCommand(
             command=f'/choose_language', 
-            description=f'Смена языка {" | ".join(get_enums(LanguageEnum))}'
+            description=f'Смена языка {" | ".join(get_languages())}'
         ),
     ]
 
